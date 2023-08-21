@@ -36,33 +36,33 @@ LDSCRIPT	= ${USER_LD}/${LDFILE}
 
 ## C flags
 
-TGT_CFLAGS		= -Wall
-TGT_CFLAGS		+= ${OPT}
+TGT_CFLAGS		= ${OPT}
+TGT_CFLAGS		+= ${DEBUG}
+TGT_CFLAGS		+= ${ARCH_FLAGS}
 TGT_CFLAGS		+= ${CSTD}
+TGT_CFLAGS		+= -Wall
 TGT_CFLAGS		+= -fno-common
 TGT_CFLAGS		+= -ffunction-sections
 TGT_CFLAGS		+= -fdata-sections
-TGT_CFLAGS		+= ${ARCH_FLAGS}
-TGT_CFLAGS		+= ${DEBUG}
 
 #CFLAGS			=
 
 ## C++ flags
 
-TGT_CXXFLAGS	= -Wall
-TGT_CXXFLAGS	+= ${OPT}
+TGT_CXXFLAGS	= ${OPT}
+TGT_CXXFLAGS	+= ${DEBUG}
+TGT_CXXFLAGS	+= ${ARCH_FLAGS}
 TGT_CXXFLAGS	+= ${CXXSTD}
+TGT_CXXFLAGS	+= -Wall
 TGT_CXXFLAGS	+= -fno-common
 TGT_CXXFLAGS	+= -ffunction-sections
 TGT_CXXFLAGS	+= -fdata-sections
-TGT_CXXFLAGS	+= ${ARCH_FLAGS}
-TGT_CXXFLAGS	+= ${DEBUG}
 
 #CXXFLAGS		=
 
 ## CPP flags, add .h header file search paths 
-
-TGT_CPPFLAGS	= -MD		# Generate .d dependencies in the same directory
+# Generate .d dependencies in the same directory
+TGT_CPPFLAGS	= -MD
 TGT_CPPFLAGS	+= -Wall
 TGT_CPPFLAGS	+= -I${OPENCM3_INC}
 TGT_CPPFLAGS	+= -iquote${USER_INC}
@@ -72,15 +72,16 @@ TGT_CPPFLAGS	+= ${DEFS}
 
 ## AS flags
 
-TGT_ASFLAGS		= ${OPT}
+TGT_ASFLAGS		= ${DEBUG}
+TGT_ASFLAGS		+= ${OPT}
 TGT_ASFLAGS		+= ${ARCH_FLAGS}
-TGT_ASFLAGS		+= ${DEBUG}
 
 #ASFLAGS		=
 
 ## LD flags, add .a library file search path and library name
 
-TGT_LDFLAGS		= --static
+TGT_LDFLAGS		= ${DEBUG}
+TGT_LDFLAGS		+= --static
 TGT_LDFLAGS		+= -nostartfiles
 TGT_LDFLAGS		+= -T${LDSCRIPT}
 TGT_LDFLAGS		+= ${ARCH_FLAGS}
@@ -94,7 +95,6 @@ TGT_LDFLAGS		+= -lnosys
 TGT_LDFLAGS		+= -specs=nano.specs
 TGT_LDFLAGS		+= -L${OPENCM3_LIB}
 TGT_LDFLAGS		+= -l${LIBNAME}
-TGT_LDFLAGS		+= ${DEBUG}
 
 #LDFLAGS		=
 
@@ -151,7 +151,7 @@ ${BUILD_DIR}/%.o: ${USER_SRC}/%.S | ${BUILD_DIR}
 	@printf "  AS\t$<\t->\t$@\n"
 	@${CC} ${TGT_ASFLAGS} ${ASFLAGS} ${TGT_CPPFLAGS} ${CPPFLAGS} -c $< -o $@
 
-## The only .elf file, with .map generated
+## The only .elf file, with .map generated. Take care of .o object file and -llibrary order!
 
 ${BUILD_DIR}/${PROJECT}.elf ${BUILD_DIR}/${PROJECT}.map: ${OBJS} ${OPENCM3_DIR}/lib/lib${LIBNAME}.a ${LDSCRIPT}
 	@printf "  LD\t${BUILD_DIR}/${PROJECT}.elf\n"

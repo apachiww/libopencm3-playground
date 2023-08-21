@@ -5,11 +5,12 @@
 ## Project name, also the name of image files
 
 PROJECT		= proj_aes
-MCU			= stm32f103_6	# See platform.mk
+# See platform.mk
+MCU			= stm32f103_8
 
 ## Add source files, these will be compiled to .o modules one by one
-
-CFILES		= main.c	# main.c must exist as the main module
+# main.c must exist as the main module
+CFILES		= main.c
 CFILES		+= api.c
 
 #AFILES		= mod.S
@@ -31,10 +32,10 @@ OPT			= -Os
 #OPT		= -Og
 
 ## Debug
-
-D			= 1		# Default, enable debug support
+# Default, enable debug support
+D			= 1
 ifeq (${D},1)
-DEBUG		= -ggdb3
+DEBUG		= -g
 endif
 
 #
@@ -42,10 +43,14 @@ endif
 #
 
 ## ST-Link settings
-STFLASH_ADDR		= 0x8000000				# Flash base address
-STFLASH_LEN			= 1024						# Amount of st-flash.read data
-STFLASH_DUMP		= ${FLASH_DIR}/read.bin	# File st-flash.read dumps to
-STLINK_GDB_PORT		= 4242						# Port number of st-util.gdb
+# Flash base address
+STFLASH_ADDR		= 0x8000000
+# Amount of st-flash.read data
+STFLASH_LEN			= 1024
+# File st-flash.read dumps to
+STFLASH_DUMP		= ${FLASH_DIR}/read.bin
+# Port number of st-util.gdb
+STLINK_GDB_PORT		= 4242
 
 ## OpenOCD config file
 
