@@ -4,7 +4,7 @@
 
 ## Project name, also the name of image files
 
-PROJECT		= proj_aes
+PROJECT		= blink
 # See platform.mk
 MCU			= stm32f103_8
 

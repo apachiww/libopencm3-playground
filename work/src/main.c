@@ -26,7 +26,7 @@ main(void) {
 			__asm__("nop");
 
 		gpio_set(GPIOB,GPIO12);		/* LED off */
-		for (i = 0; i < 500000; i++)	/* Wait a bit. */
+		for (i = 0; i < 1500000; i++)	/* Wait a bit. */
 			__asm__("nop");
 	}
 
